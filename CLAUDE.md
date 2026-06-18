@@ -2,6 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project Context
+
+- PRD 문서: @docs/PRD.md
+- 개발 로드맵: @docs/ROADMAP.md
+
 ## ⚠️ Next.js 16 주의사항
 
 **이 버전은 훈련 데이터와 다른 Breaking Changes가 존재합니다.** 코드 작성 전 `node_modules/next/dist/docs/`의 관련 가이드를 먼저 확인하세요.
