@@ -1,0 +1,189 @@
+{
+  "tasks": [
+    {
+      "id": "7386c269-c0c4-43cc-96ea-8ea61c4bef9e",
+      "name": "S1-2: 의존성 설치 (npm install + @notionhq/client)",
+      "description": "node_modules가 존재하지 않으므로 먼저 npm install로 전체 의존성을 설치한 후, @notionhq/client 패키지를 추가 설치한다. 이 태스크는 이후 모든 태스크의 전제 조건이다.",
+      "notes": "@notionhq/client 최신 버전(^2.x)이 설치되어야 함. PRD에서 명시한 버전 범위 확인.",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-06-22T08:38:04.909Z",
+      "updatedAt": "2026-06-22T08:50:04.168Z",
+      "relatedFiles": [
+        {
+          "path": "package.json",
+          "type": "TO_MODIFY",
+          "description": "@notionhq/client 의존성 추가",
+          "lineStart": 1,
+          "lineEnd": 39
+        }
+      ],
+      "implementationGuide": "1. npm install 실행하여 기존 package.json의 모든 의존성 설치\\n2. npm install @notionhq/client 실행\\n3. package.json에 @notionhq/client가 dependencies에 추가되었는지 확인\\n4. node_modules/@notionhq/client 디렉토리 존재 확인",
+      "verificationCriteria": "1. npm install 성공 (exit code 0)\\n2. package.json dependencies에 @notionhq/client 존재\\n3. node_modules/@notionhq/client 디렉토리 존재\\n4. TypeScript에서 import { Client } from '@notionhq/client' 가능",
+      "analysisResult": "Phase 1 — 프로젝트 골격 (Sprint 1): Notion CMS 레시피 블로그의 기술적 기반 구축.\\n\\n프로젝트 현재 상태:\\n- Next.js 16.2.7 스타터킷 초기 상태\\n- node_modules 미존재 (npm install 필요)\\n- @notionhq/client 미설치\\n- types/index.ts에 NavItem, SiteConfig, ApiResponse 타입 존재\\n- lib/constants.ts에 siteConfig(name: \\\"Next Starter\\\"), navItems([홈, 컴포넌트, 폼]) 존재\\n- next.config.ts 빈 설정\\n- app/page.tsx는 스타터킷 기본 홈페이지\\n\\n코드 컨벤션:\\n- 들여쓰기: 2칸 스페이스\\n- 네이밍: camelCase(변수), PascalCase(타입/컴포넌트)\\n- 변수명: 영어, 주석: 한국어(비즈니스 로직만)\\n- import 별칭: @/* → 프로젝트 루트\\n- export: named export 사용\\n\\n완료 기준: npm run build + npm run lint 통과, 모든 타입 import 가능",
+      "summary": "npm install로 전체 의존성 설치 완료 (700 packages). @notionhq/client ^5.22.0 설치 및 package.json dependencies에 추가 확인. node -e 테스트로 Client import 가능 검증 완료. 모든 검증 기준 통과.",
+      "completedAt": "2026-06-22T08:50:04.158Z"
+    },
+    {
+      "id": "a6895c28-2dae-46e6-a498-1de073582d62",
+      "name": "S1-1: 환경 변수 및 Next.js 이미지 설정",
+      "description": ".env.example(Git 추적용 템플릿)과 .env.local(실제 환경 변수) 파일을 생성하고, next.config.ts에 Notion 이미지 호스트를 위한 remotePatterns 설정을 추가한다.",
+      "notes": ".env.local의 실제 Notion API 키와 DB ID는 사용자가 직접 입력해야 함. 태스크 완료 후 사용자에게 안내 메시지 제공.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "7386c269-c0c4-43cc-96ea-8ea61c4bef9e"
+        }
+      ],
+      "createdAt": "2026-06-22T08:38:04.909Z",
+      "updatedAt": "2026-06-22T08:38:04.909Z",
+      "relatedFiles": [
+        {
+          "path": ".env.example",
+          "type": "CREATE",
+          "description": "환경 변수 템플릿 (Git 추적)"
+        },
+        {
+          "path": ".env.local",
+          "type": "CREATE",
+          "description": "실제 환경 변수 (Git 무시)"
+        },
+        {
+          "path": "next.config.ts",
+          "type": "TO_MODIFY",
+          "description": "images.remotePatterns 설정 추가",
+          "lineStart": 1,
+          "lineEnd": 7
+        },
+        {
+          "path": ".gitignore",
+          "type": "REFERENCE",
+          "description": ".env.local 포함 여부 확인"
+        }
+      ],
+      "implementationGuide": "1. .env.example 생성:\\n   NOTION_API_KEY=secret_your_notion_api_key\\n   NOTION_DATABASE_ID=your_database_id\\n   REVALIDATE_SECRET=your_revalidate_secret\\n\\n2. .env.local 생성 (동일 구조, placeholder 값)\\n\\n3. .gitignore에 .env.local이 포함되어 있는지 확인 (Next.js 기본으로 포함됨)\\n\\n4. next.config.ts 수정 — images.remotePatterns 추가:\\n   pseudocode:\\n   nextConfig = {\\n     images: {\\n       remotePatterns: [\\n         { protocol: 'https', hostname: '**.amazonaws.com' },\\n         { protocol: 'https', hostname: '**.notion.so' }\\n       ]\\n     }\\n   }\\n\\n주의: Next.js 16에서 images.domains는 deprecated. remotePatterns 사용 필수.\\nnode_modules/next/dist/docs/ 가이드 확인 후 작성.",
+      "verificationCriteria": "1. .env.example 파일 존재, 3개 환경 변수 키 포함\\n2. .env.local 파일 존재\\n3. .gitignore에 .env.local 포함 확인\\n4. next.config.ts에 images.remotePatterns 설정 존재\\n5. **.amazonaws.com과 **.notion.so 도메인 패턴 포함",
+      "analysisResult": "Phase 1 — 프로젝트 골격 (Sprint 1): Notion CMS 레시피 블로그의 기술적 기반 구축.\\n\\n프로젝트 현재 상태:\\n- Next.js 16.2.7 스타터킷 초기 상태\\n- node_modules 미존재 (npm install 필요)\\n- @notionhq/client 미설치\\n- types/index.ts에 NavItem, SiteConfig, ApiResponse 타입 존재\\n- lib/constants.ts에 siteConfig(name: \\\"Next Starter\\\"), navItems([홈, 컴포넌트, 폼]) 존재\\n- next.config.ts 빈 설정\\n- app/page.tsx는 스타터킷 기본 홈페이지\\n\\n코드 컨벤션:\\n- 들여쓰기: 2칸 스페이스\\n- 네이밍: camelCase(변수), PascalCase(타입/컴포넌트)\\n- 변수명: 영어, 주석: 한국어(비즈니스 로직만)\\n- import 별칭: @/* → 프로젝트 루트\\n- export: named export 사용\\n\\n완료 기준: npm run build + npm run lint 통과, 모든 타입 import 가능"
+    },
+    {
+      "id": "63b45d0c-775a-4f1a-9e74-a55840900e1f",
+      "name": "S1-3: 레시피 도메인 타입 정의 (types/recipe.ts)",
+      "description": "Notion 데이터베이스 구조에 맞는 TypeScript 타입을 정의한다. Recipe 인터페이스, NotionBlock discriminated union 타입, CategoryType 유니온 타입, RichText 인터페이스를 types/recipe.ts에 작성한다.",
+      "notes": "NotionBlock은 자체 정의 타입으로, @notionhq/client의 BlockObjectResponse와는 별개. Phase 2(S2-2)에서 Notion 응답 → NotionBlock 변환 함수를 구현할 예정. children 필드는 toggle 등 중첩 블록 지원용.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "7386c269-c0c4-43cc-96ea-8ea61c4bef9e"
+        }
+      ],
+      "createdAt": "2026-06-22T08:38:04.909Z",
+      "updatedAt": "2026-06-22T08:38:04.909Z",
+      "relatedFiles": [
+        {
+          "path": "types/recipe.ts",
+          "type": "CREATE",
+          "description": "Recipe, NotionBlock, CategoryType, RichText 타입 정의"
+        },
+        {
+          "path": "types/index.ts",
+          "type": "REFERENCE",
+          "description": "기존 전역 타입 패턴 참조 (NavItem, SiteConfig, ApiResponse)",
+          "lineStart": 1,
+          "lineEnd": 22
+        }
+      ],
+      "implementationGuide": "types/recipe.ts 생성 — 아래 타입들을 named export로 정의:\\n\\n1. CategoryType 유니온 타입:\\n   type CategoryType = '한식' | '양식' | '중식' | '일식' | '베이킹' | '음료' | '기타'\\n\\n2. Recipe 인터페이스 (Notion DB 속성 매핑):\\n   interface Recipe {\\n     id: string              // Notion 페이지 ID\\n     title: string           // Title (title 속성)\\n     category: CategoryType  // Category (select 속성)\\n     tags: string[]          // Tags (multi_select 속성)\\n     publishedAt: string     // Published (date 속성, ISO 문자열)\\n     status: '초안' | '발행됨'  // Status (select 속성)\\n     coverImage: string | null // 커버 이미지 URL\\n   }\\n\\n3. RichText 인터페이스 (Notion 리치 텍스트 요소):\\n   interface RichText {\\n     content: string\\n     link: string | null\\n     annotations: {\\n       bold: boolean\\n       italic: boolean\\n       underline: boolean\\n       strikethrough: boolean\\n       code: boolean\\n       color: string\\n     }\\n   }\\n\\n4. NotionBlock discriminated union 타입:\\n   - TextBlock: paragraph, heading_1/2/3, bulleted_list_item, numbered_list_item, quote, callout, toggle\\n     → { id, type, richText: RichText[], children?: NotionBlock[] }\\n   - ImageBlock: image\\n     → { id, type: 'image', url, caption: RichText[] }\\n   - CodeBlock: code\\n     → { id, type: 'code', richText: RichText[], language: string }\\n   - DividerBlock: divider\\n     → { id, type: 'divider' }\\n   - NotionBlock = TextBlock | ImageBlock | CodeBlock | DividerBlock",
+      "verificationCriteria": "1. types/recipe.ts 파일 존재\\n2. Recipe, NotionBlock, CategoryType, RichText 타입이 named export됨\\n3. 다른 파일에서 import { Recipe, NotionBlock, CategoryType } from '@/types/recipe' 가능\\n4. TypeScript 컴파일 에러 없음\\n5. CategoryType이 7개 카테고리 포함 (한식, 양식, 중식, 일식, 베이킹, 음료, 기타)\\n6. Recipe.status가 '초안' | '발행됨' 리터럴 유니온",
+      "analysisResult": "Phase 1 — 프로젝트 골격 (Sprint 1): Notion CMS 레시피 블로그의 기술적 기반 구축.\\n\\n프로젝트 현재 상태:\\n- Next.js 16.2.7 스타터킷 초기 상태\\n- node_modules 미존재 (npm install 필요)\\n- @notionhq/client 미설치\\n- types/index.ts에 NavItem, SiteConfig, ApiResponse 타입 존재\\n- lib/constants.ts에 siteConfig(name: \\\"Next Starter\\\"), navItems([홈, 컴포넌트, 폼]) 존재\\n- next.config.ts 빈 설정\\n- app/page.tsx는 스타터킷 기본 홈페이지\\n\\n코드 컨벤션:\\n- 들여쓰기: 2칸 스페이스\\n- 네이밍: camelCase(변수), PascalCase(타입/컴포넌트)\\n- 변수명: 영어, 주석: 한국어(비즈니스 로직만)\\n- import 별칭: @/* → 프로젝트 루트\\n- export: named export 사용\\n\\n완료 기준: npm run build + npm run lint 통과, 모든 타입 import 가능"
+    },
+    {
+      "id": "ce6e85ff-5926-44d1-85b9-4007e0be24eb",
+      "name": "S1-4: 사이트 설정 업데이트 (siteConfig + navItems)",
+      "description": "lib/constants.ts의 siteConfig를 레시피 블로그에 맞게 수정하고, navItems를 스타터킷 예제 항목에서 레시피 프로젝트 항목으로 교체한다.",
+      "notes": "기존 예제 페이지(app/examples/components, app/examples/forms)의 라우트 파일은 이 태스크에서 삭제하지 않음. navItems에서만 제거하여 네비게이션에서 숨김 처리. 예제 페이지 정리는 추후 별도 작업.",
+      "status": "pending",
+      "dependencies": [],
+      "createdAt": "2026-06-22T08:38:04.909Z",
+      "updatedAt": "2026-06-22T08:38:04.909Z",
+      "relatedFiles": [
+        {
+          "path": "lib/constants.ts",
+          "type": "TO_MODIFY",
+          "description": "siteConfig, navItems 값 수정",
+          "lineStart": 1,
+          "lineEnd": 15
+        },
+        {
+          "path": "types/index.ts",
+          "type": "REFERENCE",
+          "description": "NavItem, SiteConfig 타입 확인 (변경 없음)",
+          "lineStart": 1,
+          "lineEnd": 22
+        },
+        {
+          "path": "components/layout/header.tsx",
+          "type": "REFERENCE",
+          "description": "siteConfig.name 사용 확인",
+          "lineStart": 1,
+          "lineEnd": 27
+        },
+        {
+          "path": "components/layout/footer.tsx",
+          "type": "REFERENCE",
+          "description": "siteConfig.name, github 사용 확인",
+          "lineStart": 1,
+          "lineEnd": 30
+        },
+        {
+          "path": "components/layout/main-nav.tsx",
+          "type": "REFERENCE",
+          "description": "navItems 자동 반영 확인",
+          "lineStart": 1,
+          "lineEnd": 23
+        },
+        {
+          "path": "components/layout/mobile-nav.tsx",
+          "type": "REFERENCE",
+          "description": "navItems 자동 반영 확인",
+          "lineStart": 1,
+          "lineEnd": 42
+        }
+      ],
+      "implementationGuide": "lib/constants.ts 수정:\\n\\n1. siteConfig 수정:\\n   siteConfig = {\\n     name: '레시피 모음',\\n     description: 'Notion으로 관리하는 나만의 레시피 블로그',\\n     url: 'https://example.com',  // 배포 후 변경\\n     ogImage: '/og.png',\\n     github: 'https://github.com/'\\n   }\\n\\n2. navItems 수정:\\n   navItems = [\\n     { title: '홈', href: '/' },\\n     { title: '레시피', href: '/#recipes' }\\n   ]\\n\\n주의사항:\\n- SiteConfig 타입(types/index.ts)은 변경하지 않음 (name, description, url, ogImage, github 필드 유지)\\n- NavItem 타입도 변경하지 않음\\n- navItems 변경 시 MainNav, MobileNav에 자동 반영됨 (수동 수정 불필요)\\n- Header의 siteConfig.name도 자동 반영됨\\n- Footer의 siteConfig.name, github도 자동 반영됨",
+      "verificationCriteria": "1. siteConfig.name이 '레시피 모음'으로 변경됨\\n2. siteConfig.description이 레시피 블로그 관련 설명으로 변경됨\\n3. navItems가 홈, 레시피 2개 항목만 포함\\n4. 기존 예제 페이지(컴포넌트, 폼) 항목이 navItems에서 제거됨\\n5. TypeScript 컴파일 에러 없음",
+      "analysisResult": "Phase 1 — 프로젝트 골격 (Sprint 1): Notion CMS 레시피 블로그의 기술적 기반 구축.\\n\\n프로젝트 현재 상태:\\n- Next.js 16.2.7 스타터킷 초기 상태\\n- node_modules 미존재 (npm install 필요)\\n- @notionhq/client 미설치\\n- types/index.ts에 NavItem, SiteConfig, ApiResponse 타입 존재\\n- lib/constants.ts에 siteConfig(name: \\\"Next Starter\\\"), navItems([홈, 컴포넌트, 폼]) 존재\\n- next.config.ts 빈 설정\\n- app/page.tsx는 스타터킷 기본 홈페이지\\n\\n코드 컨벤션:\\n- 들여쓰기: 2칸 스페이스\\n- 네이밍: camelCase(변수), PascalCase(타입/컴포넌트)\\n- 변수명: 영어, 주석: 한국어(비즈니스 로직만)\\n- import 별칭: @/* → 프로젝트 루트\\n- export: named export 사용\\n\\n완료 기준: npm run build + npm run lint 통과, 모든 타입 import 가능"
+    },
+    {
+      "id": "9f5c7bad-069a-48b9-b2bd-23c38d6696b1",
+      "name": "S1-DoD: 빌드 및 린트 검증",
+      "description": "Phase 1의 모든 태스크 완료 후, npm run build와 npm run lint를 실행하여 TypeScript 컴파일 에러와 ESLint 에러가 없는지 최종 확인한다. 모든 DoD 항목을 체크한다.",
+      "notes": "빌드 에러 발생 시 해당 태스크로 돌아가 수정. app/page.tsx가 스타터킷 기본 페이지이므로 빌드에는 문제없음.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "a6895c28-2dae-46e6-a498-1de073582d62"
+        },
+        {
+          "taskId": "63b45d0c-775a-4f1a-9e74-a55840900e1f"
+        },
+        {
+          "taskId": "ce6e85ff-5926-44d1-85b9-4007e0be24eb"
+        }
+      ],
+      "createdAt": "2026-06-22T08:38:04.909Z",
+      "updatedAt": "2026-06-22T08:38:04.909Z",
+      "relatedFiles": [
+        {
+          "path": "package.json",
+          "type": "REFERENCE",
+          "description": "build, lint 스크립트 확인",
+          "lineStart": 5,
+          "lineEnd": 10
+        }
+      ],
+      "implementationGuide": "1. npm run lint 실행 → ESLint 에러 없음 확인\\n2. npm run build 실행 → TypeScript 컴파일 + Next.js 빌드 성공 확인\\n3. DoD 체크리스트 확인:\\n   - .env.local에 NOTION_API_KEY, NOTION_DATABASE_ID 키 존재\\n   - @notionhq/client 설치 및 import 가능\\n   - Recipe, NotionBlock, CategoryType 타입 정의 및 import 가능\\n   - siteConfig.name이 '레시피 모음'\\n   - navItems에 홈, 레시피 항목 존재\\n4. 에러 발생 시 원인 분석 및 수정",
+      "verificationCriteria": "1. npm run lint 성공 (exit code 0, 에러 없음)\\n2. npm run build 성공 (exit code 0)\\n3. .next 디렉토리 생성됨\\n4. 모든 Phase 1 DoD 항목 충족",
+      "analysisResult": "Phase 1 — 프로젝트 골격 (Sprint 1): Notion CMS 레시피 블로그의 기술적 기반 구축.\\n\\n프로젝트 현재 상태:\\n- Next.js 16.2.7 스타터킷 초기 상태\\n- node_modules 미존재 (npm install 필요)\\n- @notionhq/client 미설치\\n- types/index.ts에 NavItem, SiteConfig, ApiResponse 타입 존재\\n- lib/constants.ts에 siteConfig(name: \\\"Next Starter\\\"), navItems([홈, 컴포넌트, 폼]) 존재\\n- next.config.ts 빈 설정\\n- app/page.tsx는 스타터킷 기본 홈페이지\\n\\n코드 컨벤션:\\n- 들여쓰기: 2칸 스페이스\\n- 네이밍: camelCase(변수), PascalCase(타입/컴포넌트)\\n- 변수명: 영어, 주석: 한국어(비즈니스 로직만)\\n- import 별칭: @/* → 프로젝트 루트\\n- export: named export 사용\\n\\n완료 기준: npm run build + npm run lint 통과, 모든 타입 import 가능"
+    }
+  ]
+}
