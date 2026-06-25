@@ -128,3 +128,96 @@
     @apply font-sans;
   }
 }
+
+@media print {
+  /* 사이트 헤더(sticky)/푸터/브레드크럼 숨김 (레시피 콘텐츠 header는 유지) */
+  header.sticky,
+  footer,
+  nav[aria-label="breadcrumb"],
+  [data-slot="sonner"],
+  .print\:hidden {
+    display: none !important;
+  }
+
+  html {
+    font-size: 12pt;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  /* 레시피 제목 강조 */
+  main h1 {
+    font-size: 24pt !important;
+    margin-bottom: 8pt !important;
+  }
+
+  /* 본문 너비 제한 해제 */
+  .max-w-3xl {
+    max-width: 100% !important;
+  }
+
+  /* 링크 스타일 */
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+
+  /* 배지 인쇄용 */
+  [data-slot="badge"] {
+    border: 1px solid #888 !important;
+    background: transparent !important;
+    color: black !important;
+    print-color-adjust: exact;
+  }
+
+  /* 코드 블록 */
+  pre {
+    border: 1px solid #ccc !important;
+    background: #f5f5f5 !important;
+    print-color-adjust: exact;
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+  }
+
+  /* 인용 */
+  blockquote {
+    border-left: 3px solid #666 !important;
+    padding-left: 12pt !important;
+    color: #333 !important;
+  }
+
+  /* 콜아웃 */
+  [data-block-type="callout"] {
+    border: 1px solid #ddd !important;
+    background: #fafafa !important;
+    print-color-adjust: exact;
+  }
+
+  /* 구분선 */
+  hr, [data-block-type="divider"] {
+    border-color: #ccc !important;
+  }
+
+  /* 이미지 페이지 넘김 방지 */
+  img {
+    max-width: 100% !important;
+    break-inside: avoid;
+  }
+
+  /* 제목 뒤 페이지 넘김 방지 */
+  h1, h2, h3 {
+    break-after: avoid;
+  }
+
+  /* 목록/코드블록 페이지 넘김 방지 */
+  li, pre, blockquote, [data-block-type="callout"] {
+    break-inside: avoid;
+  }
+}

@@ -1,8 +1,9 @@
 import type { NavItem, SiteConfig } from "@/types"
+import type { CategoryType } from "@/types/recipe"
 
 export const siteConfig: SiteConfig = {
-  name: "Next Starter",
-  description: "Next.js + TypeScript + Tailwind CSS v4 + ShadcnUI로 빠르게 시작하는 모던 웹 스타터킷",
+  name: "레시피 모음",
+  description: "Notion CMS 기반 레시피 블로그 — Notion에서 작성하면 자동으로 웹에 반영됩니다.",
   url: "https://example.com",
   ogImage: "/og.png",
   github: "https://github.com/",
@@ -10,6 +11,15 @@ export const siteConfig: SiteConfig = {
 
 export const navItems: NavItem[] = [
   { title: "홈", href: "/" },
-  { title: "컴포넌트", href: "/examples/components" },
-  { title: "폼", href: "/examples/forms" },
+  { title: "레시피", href: "/#recipes" },
+]
+
+export const categories: CategoryType[] = [
+  "한식",
+  "양식",
+  "중식",
+  "일식",
+  "베이킹",
+  "음료",
+  "기타",
 ]
