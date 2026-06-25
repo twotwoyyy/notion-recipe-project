@@ -16,6 +16,15 @@
         "@modelcontextprotocol/server-sequential-thinking"
       ],
       "env": {}
+    },
+    "shrimp-task-manager": {
+      "command": "node",
+      "args": ["C:/Users/User/workspace/courses/mcp-shrimp-task-manager/dist/index.js"],
+      "env": {
+        "DATA_DIR": "C:\\Users\\User\\workspace\\notion-cms-project\\.claude\\shrimp_data",
+        "TEMPLATES_USE": "en",
+        "ENABLE_GUI": "true"
+      }
     }
   }
 }

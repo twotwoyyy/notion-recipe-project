@@ -29,14 +29,14 @@
       "name": "S1-1: 환경 변수 및 Next.js 이미지 설정",
       "description": ".env.example(Git 추적용 템플릿)과 .env.local(실제 환경 변수) 파일을 생성하고, next.config.ts에 Notion 이미지 호스트를 위한 remotePatterns 설정을 추가한다.",
       "notes": ".env.local의 실제 Notion API 키와 DB ID는 사용자가 직접 입력해야 함. 태스크 완료 후 사용자에게 안내 메시지 제공.",
-      "status": "pending",
+      "status": "completed",
       "dependencies": [
         {
           "taskId": "7386c269-c0c4-43cc-96ea-8ea61c4bef9e"
         }
       ],
       "createdAt": "2026-06-22T08:38:04.909Z",
-      "updatedAt": "2026-06-22T08:38:04.909Z",
+      "updatedAt": "2026-06-22T09:10:10.547Z",
       "relatedFiles": [
         {
           "path": ".env.example",
@@ -63,7 +63,9 @@
       ],
       "implementationGuide": "1. .env.example 생성:\\n   NOTION_API_KEY=secret_your_notion_api_key\\n   NOTION_DATABASE_ID=your_database_id\\n   REVALIDATE_SECRET=your_revalidate_secret\\n\\n2. .env.local 생성 (동일 구조, placeholder 값)\\n\\n3. .gitignore에 .env.local이 포함되어 있는지 확인 (Next.js 기본으로 포함됨)\\n\\n4. next.config.ts 수정 — images.remotePatterns 추가:\\n   pseudocode:\\n   nextConfig = {\\n     images: {\\n       remotePatterns: [\\n         { protocol: 'https', hostname: '**.amazonaws.com' },\\n         { protocol: 'https', hostname: '**.notion.so' }\\n       ]\\n     }\\n   }\\n\\n주의: Next.js 16에서 images.domains는 deprecated. remotePatterns 사용 필수.\\nnode_modules/next/dist/docs/ 가이드 확인 후 작성.",
       "verificationCriteria": "1. .env.example 파일 존재, 3개 환경 변수 키 포함\\n2. .env.local 파일 존재\\n3. .gitignore에 .env.local 포함 확인\\n4. next.config.ts에 images.remotePatterns 설정 존재\\n5. **.amazonaws.com과 **.notion.so 도메인 패턴 포함",
-      "analysisResult": "Phase 1 — 프로젝트 골격 (Sprint 1): Notion CMS 레시피 블로그의 기술적 기반 구축.\\n\\n프로젝트 현재 상태:\\n- Next.js 16.2.7 스타터킷 초기 상태\\n- node_modules 미존재 (npm install 필요)\\n- @notionhq/client 미설치\\n- types/index.ts에 NavItem, SiteConfig, ApiResponse 타입 존재\\n- lib/constants.ts에 siteConfig(name: \\\"Next Starter\\\"), navItems([홈, 컴포넌트, 폼]) 존재\\n- next.config.ts 빈 설정\\n- app/page.tsx는 스타터킷 기본 홈페이지\\n\\n코드 컨벤션:\\n- 들여쓰기: 2칸 스페이스\\n- 네이밍: camelCase(변수), PascalCase(타입/컴포넌트)\\n- 변수명: 영어, 주석: 한국어(비즈니스 로직만)\\n- import 별칭: @/* → 프로젝트 루트\\n- export: named export 사용\\n\\n완료 기준: npm run build + npm run lint 통과, 모든 타입 import 가능"
+      "analysisResult": "Phase 1 — 프로젝트 골격 (Sprint 1): Notion CMS 레시피 블로그의 기술적 기반 구축.\\n\\n프로젝트 현재 상태:\\n- Next.js 16.2.7 스타터킷 초기 상태\\n- node_modules 미존재 (npm install 필요)\\n- @notionhq/client 미설치\\n- types/index.ts에 NavItem, SiteConfig, ApiResponse 타입 존재\\n- lib/constants.ts에 siteConfig(name: \\\"Next Starter\\\"), navItems([홈, 컴포넌트, 폼]) 존재\\n- next.config.ts 빈 설정\\n- app/page.tsx는 스타터킷 기본 홈페이지\\n\\n코드 컨벤션:\\n- 들여쓰기: 2칸 스페이스\\n- 네이밍: camelCase(변수), PascalCase(타입/컴포넌트)\\n- 변수명: 영어, 주석: 한국어(비즈니스 로직만)\\n- import 별칭: @/* → 프로젝트 루트\\n- export: named export 사용\\n\\n완료 기준: npm run build + npm run lint 통과, 모든 타입 import 가능",
+      "summary": "환경 변수 파일 생성 완료: .env.example(Git 추적, 3개 키 포함), .env.local(Git 무시, placeholder). .gitignore에 !.env.example 예외 추가. next.config.ts에 images.remotePatterns 설정 추가 (**.amazonaws.com, **.notion.so). Next.js 16 공식 문서 기반으로 구현.",
+      "completedAt": "2026-06-22T09:10:10.541Z"
     },
     {
       "id": "63b45d0c-775a-4f1a-9e74-a55840900e1f",
