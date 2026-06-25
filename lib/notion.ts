@@ -3,7 +3,7 @@ import type {
   PageObjectResponse,
   BlockObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints"
-import type { Recipe, CategoryType } from "@/types/recipe"
+import type { Recipe, RecipeStats, CategoryType } from "@/types/recipe"
 
 const notionClient = new Client({
   auth: process.env.NOTION_API_KEY,
@@ -54,7 +54,7 @@ function pageToRecipe(page: PageObjectResponse): Recipe {
     category: (extractSelect(page, "Category") || "기타") as CategoryType,
     tags: extractMultiSelect(page, "Tags"),
     publishedAt: extractDate(page, "Published"),
-    status: extractSelect(page, "Status") as Recipe["status"],
+    status: (extractSelect(page, "Status") || "초안") as Recipe["status"],
     coverImage: extractCoverImage(page),
   }
 }
@@ -121,4 +121,25 @@ export async function getRecipeBlocks(id: string): Promise<BlockObjectResponse[]
 export async function getAllRecipeIds(): Promise<string[]> {
   const recipes = await getPublishedRecipes()
   return recipes.map((r) => r.id)
+}
+
+export async function getAllRecipes(): Promise<Recipe[]> {
+  const response = await notionClient.dataSources.query({
+    data_source_id: dataSourceId,
+    sorts: [{ property: "Published", direction: "descending" }],
+  })
+
+  return response.results
+    .filter((page): page is PageObjectResponse => "properties" in page)
+    .map(pageToRecipe)
+}
+
+export async function getRecipeStats(): Promise<RecipeStats> {
+  const recipes = await getAllRecipes()
+  const published = recipes.filter((r) => r.status === "발행됨").length
+  return {
+    total: recipes.length,
+    published,
+    draft: recipes.length - published,
+  }
 }

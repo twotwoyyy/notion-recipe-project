@@ -59,3 +59,9 @@ export interface NotionBlock {
   language?: string
   icon?: string
 }
+
+export interface RecipeStats {
+  total: number
+  published: number
+  draft: number
+}

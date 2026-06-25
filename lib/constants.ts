@@ -14,6 +14,11 @@ export const navItems: NavItem[] = [
   { title: "레시피", href: "/#recipes" },
 ]
 
+export const adminNavItems: NavItem[] = [
+  { title: "대시보드", href: "/admin" },
+  { title: "레시피 관리", href: "/admin/recipes" },
+]
+
 export const categories: CategoryType[] = [
   "한식",
   "양식",
